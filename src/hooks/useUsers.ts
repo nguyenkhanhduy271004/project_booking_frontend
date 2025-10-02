@@ -10,7 +10,7 @@ export const useUsers = (params: { page: number; size: number; keyword?: string;
     select: (data) => ({
       items: data.data.items,
       totalElements: data.data.totalElements,
-      totalPages: data.data.totalPages,
+      totalPage: data.data.totalPage, // Corrected property name
     }),
   });
 };
@@ -18,8 +18,10 @@ export const useUsers = (params: { page: number; size: number; keyword?: string;
 export const useUserDetail = (userId: number) => {
   return useQuery<User>({
     queryKey: ['users', userId],
-    queryFn: () => userService.getUserDetail(userId),
-    select: (data) => data.data,
+    queryFn: async () => {
+      const response = await userService.getUserDetail(userId);
+      return response.data; // Ensure proper type usage
+    },
     enabled: !!userId,
   });
 };

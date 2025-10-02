@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Card, Typography, Form, Input, Button, message } from 'antd';
-import { MailOutlined, UserOutlined } from '@ant-design/icons';
+import { UserOutlined } from '@ant-design/icons';
 import { userService } from '../services/userService';
 
 const { Title, Text } = Typography;

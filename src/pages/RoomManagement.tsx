@@ -1,4 +1,4 @@
-import React, { useMemo, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react'; // Removed unused useMemo
 import {
   Table,
   Button,
@@ -22,7 +22,6 @@ import {
   Image,
 } from 'antd';
 import {
-  SearchOutlined,
   ReloadOutlined,
   EyeOutlined,
   PlusOutlined,
@@ -34,12 +33,10 @@ import {
 import type { Room, RoomDTO, Hotel, RoomType } from '../types';
 import { roomService } from '../services/roomService';
 import { hotelService } from '../services/hotelService';
-import { useAuthStore } from '../store/authStore';
 const { Title } = Typography;
 const { Option } = Select;
 const { TextArea } = Input;
 const RoomManagement: React.FC = () => {
-  const { user } = useAuthStore();
   const [rooms, setRooms] = useState<Room[]>([]);
   const [hotels, setHotels] = useState<Hotel[]>([]);
   const [loading, setLoading] = useState(false);

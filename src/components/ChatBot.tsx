@@ -8,10 +8,8 @@ import {
   Avatar,
   Spin,
   message,
-  Tooltip,
   FloatButton,
   Drawer,
-  List,
   Tag,
   Divider,
 } from 'antd';
@@ -21,13 +19,13 @@ import {
   UserOutlined,
   MessageOutlined,
   CloseOutlined,
-  LinkOutlined,
   HomeOutlined,
   StarOutlined,
+  LinkOutlined,
 } from '@ant-design/icons';
 import { chatService } from '../services/chatService';
 import dayjs from 'dayjs';
-const { Text, Link } = Typography;
+const { Text } = Typography;
 const { TextArea } = Input;
 interface ChatMessage {
   id: string;

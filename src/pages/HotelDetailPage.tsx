@@ -26,14 +26,12 @@ import {
 import dayjs from 'dayjs';
 import { hotelService } from '../services/hotelService';
 import { evaluationService } from '../services/evaluationService';
-import { useAuthStore } from '../store/authStore';
 import type { Hotel } from '../types';
 const { Content } = Layout;
 const { Title, Text } = Typography;
 const HotelDetailPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
-  const { isAuthenticated } = useAuthStore();
   const [hotel, setHotel] = useState<Hotel | null>(null);
   const [rooms, setRooms] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
@@ -98,24 +96,16 @@ const HotelDetailPage: React.FC = () => {
             : raw
               ? [raw]
               : [];
-        const normalized = list.map((ev: any) => ({
-          id: ev.id,
-          rating: ev.starRating ?? ev.rating ?? 0,
-          comment: ev.message ?? ev.comment ?? '',
-          guestName: ev.guestName || ev.guest?.fullName,
-          createdAt: ev.createdAt,
-        }));
-        setEvaluations(normalized);
-      } else {
-        setEvaluations([]);
+        setEvaluations(list);
       }
-    } catch (e) {
-      setEvaluations([]);
-      message.error('Không thể tải đánh giá phòng');
+    } catch (error) {
+      console.error('Error fetching evaluations:', error);
+      message.error('Không thể tải đánh giá');
     } finally {
       setEvalLoading(false);
     }
   };
+
   if (loading) {
     return (
       <Layout className="min-h-screen bg-gray-50">
@@ -282,12 +272,12 @@ const HotelDetailPage: React.FC = () => {
                           <Text className="text-gray-600 text-sm block mb-2">Dịch vụ:</Text>
                           <div className="flex flex-wrap gap-1">
                             {room.services.slice(0, 3).map((service: string, index: number) => (
-                              <Tag key={index} size="small" color="blue">
+                              <Tag key={index} color="blue">
                                 {service}
                               </Tag>
                             ))}
                             {room.services.length > 3 && (
-                              <Tag size="small" color="default">
+                              <Tag color="default">
                                 +{room.services.length - 3} khác
                               </Tag>
                             )}

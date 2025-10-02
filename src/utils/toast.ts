@@ -1,5 +1,3 @@
-import type { MessageInstance, NotificationInstance } from 'antd/es/message/interface';
-
 let messageApi: any | null = null;
 
 export const setMessageApi = (api: any) => {

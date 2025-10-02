@@ -1,4 +1,4 @@
-import React, { useMemo, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react'; // Removed unused useMemo
 import {
   Table,
   Button,
@@ -25,7 +25,6 @@ import {
   EditOutlined,
   DeleteOutlined,
   EyeOutlined,
-  RestOutlined,
   SearchOutlined,
   ReloadOutlined,
   UploadOutlined,
@@ -260,20 +259,6 @@ const HotelManagement: React.FC = () => {
       message.success('Khôi phục các khách sạn thành công!');
       setSelectedRowKeys([]);
       fetchDeletedHotels();
-    } catch (error: any) {
-      console.error('Error restoring hotels:', error);
-    }
-  };
-  const handleRestoreHotels = async () => {
-    if (selectedRowKeys.length === 0) {
-      message.warning('Vui lòng chọn ít nhất một khách sạn để khôi phục');
-      return;
-    }
-    try {
-      await hotelService.restoreHotels(selectedRowKeys);
-      message.success('Khôi phục các khách sạn thành công!');
-      setSelectedRowKeys([]);
-      fetchHotels();
     } catch (error: any) {
       console.error('Error restoring hotels:', error);
     }

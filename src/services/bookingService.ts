@@ -3,7 +3,6 @@ import type {
   BookingRequest, 
   BookingResponse, 
   BookingStatus,
-  PaymentType,
   PageResponse, 
   ApiResponse 
 } from '../types';

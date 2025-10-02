@@ -3,6 +3,7 @@ import { persist } from 'zustand/middleware';
 import type { User, LoginResponse } from '../types';
 interface AuthState {
   user: {
+    id: number; // Added 'id' property
     fullName: string;
     userType: string;
   } | null;
@@ -34,6 +35,7 @@ export const useAuthStore = create<AuthState & AuthActions>()(
       login: (loginResponse: LoginResponse) => {
         set({
           user: {
+            id: loginResponse.id, // Added 'id' property
             fullName: loginResponse.fullName,
             userType: loginResponse.userType,
           },
@@ -64,6 +66,7 @@ export const useAuthStore = create<AuthState & AuthActions>()(
       updateUser: (user: User) => {
         set({ 
           user: {
+            id: user.id,
             fullName: user.fullName,
             userType: user.userType,
           }

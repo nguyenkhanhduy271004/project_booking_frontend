@@ -29,7 +29,7 @@ import {
 } from '@ant-design/icons';
 import { evaluationService } from '../services/evaluationService';
 import { roomService } from '../services/roomService';
-import type { Evaluation, EvaluationRequest } from '../types';
+import type { Evaluation, EvaluationCreateRequest, EvaluationUpdateRequest } from '../types';
 import dayjs from 'dayjs';
 const { Title, Text } = Typography;
 const { Option } = Select;
@@ -107,7 +107,7 @@ const EvaluationManagement: React.FC = () => {
       console.error('Error fetching rooms:', error);
     }
   };
-  const handleCreateEvaluation = async (values: EvaluationRequest) => {
+  const handleCreateEvaluation = async (values: EvaluationCreateRequest) => {
     try {
       const response = await evaluationService.createEvaluation(values);
       if (response.status === 200) {
@@ -120,7 +120,7 @@ const EvaluationManagement: React.FC = () => {
       message.error(error.response?.data?.message || 'Tạo đánh giá thất bại');
     }
   };
-  const handleUpdateEvaluation = async (values: EvaluationRequest) => {
+  const handleUpdateEvaluation = async (values: EvaluationUpdateRequest) => {
     if (!editingEvaluation) return;
     try {
       const response = await evaluationService.updateEvaluation(editingEvaluation.id, values);

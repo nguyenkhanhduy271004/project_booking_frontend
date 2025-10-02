@@ -23,16 +23,12 @@ import {
   EditOutlined,
   DeleteOutlined,
   EyeOutlined,
-  PercentageOutlined,
-  DollarOutlined,
-  SearchOutlined,
   ReloadOutlined,
 } from '@ant-design/icons';
 import { voucherService } from '../services/voucherService';
 import { hotelService } from '../services/hotelService';
 import { useAuthStore } from '../store/authStore';
-import { userService } from '../services/userService';
-import type { Voucher, VoucherCreateRequest, VoucherUpdateRequest, Hotel, VoucherStatus, VoucherType } from '../types';
+import type { Voucher, VoucherCreateRequest, VoucherUpdateRequest, Hotel, VoucherStatus } from '../types';
 import dayjs from 'dayjs';
 const { Title, Text } = Typography;
 const { Option } = Select;
@@ -54,22 +50,11 @@ const VoucherManagement: React.FC = () => {
   const [editingVoucher, setEditingVoucher] = useState<Voucher | null>(null);
   const [viewingVoucher, setViewingVoucher] = useState<Voucher | null>(null);
   const [form] = Form.useForm();
-  const [currentUserId, setCurrentUserId] = useState<number | null>(null);
   const isManager = user?.userType === 'MANAGER';
   useEffect(() => {
     fetchVouchers();
     fetchHotels();
-    loadCurrentUser();
   }, [pagination.current, pagination.pageSize, searchText, statusFilter]);
-  const loadCurrentUser = async () => {
-    try {
-      const resp = await userService.getUserInfo();
-      if (resp.status === 200) {
-        setCurrentUserId((resp.data as any).id);
-      }
-    } catch (e) {
-    }
-  };
   const fetchVouchers = async () => {
     try {
       setLoading(true);
@@ -301,9 +286,9 @@ const VoucherManagement: React.FC = () => {
     },
   ];
   const managerHotelIds = useMemo(() => {
-    if (!isManager || !currentUserId) return null;
-    return hotels.filter(h => h.managerId === currentUserId).map(h => h.id);
-  }, [isManager, currentUserId, hotels]);
+    if (!isManager || !user) return null; // Added null check for user
+    return hotels.filter(h => h.managerId === user.id).map(h => h.id);
+  }, [isManager, user?.id, hotels]); // Updated dependency array to use optional chaining
   const filteredVouchers = vouchers.filter(voucher => {
     if (isManager && managerHotelIds && managerHotelIds.length > 0) {
       if (!managerHotelIds.includes((voucher as any).hotelId as any)) return false;
@@ -398,7 +383,13 @@ const VoucherManagement: React.FC = () => {
         <Form
           form={form}
           layout="vertical"
-          onFinish={editingVoucher ? handleUpdateVoucher : handleCreateVoucher}
+          onFinish={async (values) => {
+            if (editingVoucher) {
+              await handleUpdateVoucher(values);
+            } else {
+              await handleCreateVoucher(values);
+            }
+          }}
         >
           {!isManager && (
             <Form.Item
@@ -480,7 +471,7 @@ const VoucherManagement: React.FC = () => {
                   min={0}
                   style={{ width: '100%' }}
                   formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-                  parser={(value) => value ? Number(value.replace(/[^\d]/g, '')) : 0}
+                  parser={(value) => value ? Number(value.replace(/[^\d]/g, '')) as any : 0}
                   placeholder="500000"
                 />
               </Form.Item>
@@ -585,8 +576,8 @@ const VoucherManagement: React.FC = () => {
                 <Card size="small" title="Trạng thái">
                   <p><strong>Số lượng ban đầu:</strong> {viewingVoucher.quantity}</p>
                   <p><strong>Trạng thái xóa:</strong> 
-                    <Tag color={viewingVoucher.deleted ? 'red' : 'green'} style={{ marginLeft: 8 }}>
-                      {viewingVoucher.deleted ? 'Đã xóa' : 'Hoạt động'}
+                    <Tag color={viewingVoucher.deletedAt ? 'red' : 'green'} style={{ marginLeft: 8 }}>
+                      {viewingVoucher.deletedAt ? 'Đã xóa' : 'Hoạt động'}
                     </Tag>
                   </p>
                 </Card>

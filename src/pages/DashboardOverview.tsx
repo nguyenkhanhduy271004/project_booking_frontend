@@ -129,27 +129,27 @@ const StatisticsSection = () => {
       <Row gutter={[16, 16]}>
         <Col key="hotels" xs={24} sm={12} lg={6}>
           <StatCard
-              title="Tổng khách sạn"
+            title="Tổng khách sạn"
             value={statistics?.totalHotels || 0}
             prefix={<HomeOutlined className="text-blue-500" />}
-              valueStyle={{ color: '#1890ff' }}
-            />
+            valueStyle={{ color: '#1890ff' }}
+          />
         </Col>
         <Col key="rooms" xs={24} sm={12} lg={6}>
           <StatCard
-              title="Tổng phòng"
+            title="Tổng phòng"
             value={statistics?.totalRooms || 0}
-              prefix={<HomeOutlined className="text-green-500" />}
-              valueStyle={{ color: '#52c41a' }}
-            />
+            prefix={<HomeOutlined className="text-green-500" />}
+            valueStyle={{ color: '#52c41a' }}
+          />
         </Col>
         <Col key="bookings" xs={24} sm={12} lg={6}>
           <StatCard
-              title="Tổng đặt phòng"
+            title="Tổng đặt phòng"
             value={statistics?.totalBookings || 0}
-              prefix={<BookOutlined className="text-yellow-500" />}
-              valueStyle={{ color: '#faad14' }}
-            />
+            prefix={<BookOutlined className="text-yellow-500" />}
+            valueStyle={{ color: '#faad14' }}
+          />
         </Col>
         <Col key="users" xs={24} sm={12} lg={6}>
           <StatCard
@@ -163,10 +163,10 @@ const StatisticsSection = () => {
       <Row gutter={[16, 16]} className="mt-4">
         <Col key="revenue" xs={24} sm={12} lg={6}>
           <StatCard
-              title="Doanh thu tháng"
+            title="Doanh thu tháng"
             value={statistics?.monthlyRevenue || 0}
-              prefix={<DollarOutlined className="text-red-500" />}
-              valueStyle={{ color: '#f5222d' }}
+            prefix={<DollarOutlined className="text-red-500" />}
+            valueStyle={{ color: '#f5222d' }}
             formatter={(value: any) => `${Number(value).toLocaleString('vi-VN')} VNĐ`}
           />
         </Col>
@@ -213,79 +213,90 @@ const ChartsSection = () => {
       <Row gutter={[16, 16]} className="mb-6">
         <Col key="chart-trend" xs={24} lg={16}>
           <ChartCard title="Xu hướng đặt phòng và doanh thu" extra={<TrophyOutlined />}>
-            <LineChart data={bookingTrends?.map(trend => ({
-              month: `T${trend.month}`,
-              bookings: trend.bookings,
-              revenue: trend.revenue
-            })) || []}>
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="month" />
-                <YAxis yAxisId="left" />
-                <YAxis yAxisId="right" orientation="right" />
-                <Tooltip 
-                  formatter={(value, name) => [
-                    name === 'bookings' ? value : `${Number(value).toLocaleString('vi-VN')} VNĐ`,
-                    name === 'bookings' ? 'Số đặt phòng' : 'Doanh thu'
-                  ]}
-                />
-                <Line
-                  yAxisId="left"
-                  type="monotone"
-                  dataKey="bookings"
-                  stroke="#1890ff"
-                  strokeWidth={2}
-                  name="bookings"
-                />
-                <Line
-                  yAxisId="right"
-                  type="monotone"
-                  dataKey="revenue"
-                  stroke="#52c41a"
-                  strokeWidth={2}
-                  name="revenue"
-                />
-              </LineChart>
+            <LineChart
+              data={
+                bookingTrends?.map((trend) => ({
+                  month: `T${parseInt(trend.month, 10)}`,
+                  bookings: trend.bookings,
+                  revenue: trend.revenue,
+                })) || []
+              }
+            >
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis dataKey="month" />
+              <YAxis yAxisId="left" />
+              <YAxis yAxisId="right" orientation="right" />
+              <Tooltip
+                formatter={(value, name) => [
+                  name === 'bookings' ? value : `${Number(value).toLocaleString('vi-VN')} VNĐ`,
+                  name === 'bookings' ? 'Số đặt phòng' : 'Doanh thu',
+                ]}
+              />
+              <Line
+                yAxisId="left"
+                type="monotone"
+                dataKey="bookings"
+                stroke="#1890ff"
+                strokeWidth={2}
+                name="bookings"
+              />
+              <Line
+                yAxisId="right"
+                type="monotone"
+                dataKey="revenue"
+                stroke="#52c41a"
+                strokeWidth={2}
+                name="revenue"
+              />
+            </LineChart>
           </ChartCard>
         </Col>
         <Col key="chart-pie" xs={24} lg={8}>
           <ChartCard title="Phân bố loại phòng">
-              <PieChart>
-                <Pie
-                data={roomDistribution?.map(dist => ({
-                  name: getRoomTypeDisplayName(dist.roomType),
-                  value: dist.count,
-                  color: dist.color
-                })) || []}
-                  cx="50%"
-                  cy="50%"
-                  labelLine={false}
-                  label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
-                  outerRadius={80}
-                  fill="#8884d8"
-                  dataKey="value"
-                >
+            <PieChart>
+              <Pie
+                data={
+                  roomDistribution?.map((dist) => ({
+                    name: getRoomTypeDisplayName(dist.roomType),
+                    value: dist.count,
+                    color: dist.color,
+                  })) || []
+                }
+                cx="50%"
+                cy="50%"
+                labelLine={false}
+                label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
+                outerRadius={80}
+                fill="#8884d8"
+                dataKey="value"
+              >
                 {roomDistribution?.map((entry, index) => (
-                    <Cell key={`cell-${index}`} fill={entry.color} />
-                  ))}
-                </Pie>
-                <Tooltip />
-              </PieChart>
+                  <Cell key={`cell-${index}`} fill={entry.color} />
+                ))}
+              </Pie>
+              <Tooltip />
+            </PieChart>
           </ChartCard>
         </Col>
       </Row>
       <Row gutter={[16, 16]}>
         <Col key="top-hotels" xs={24} lg={12}>
           <ChartCard title="Top khách sạn có nhiều đặt phòng nhất">
-            <BarChart data={topHotels?.map(hotel => ({
-              name: hotel.hotelName,
-              bookings: hotel.totalBookings
-            })) || []} layout="horizontal">
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis type="number" />
-                <YAxis dataKey="name" type="category" width={100} />
-                <Tooltip formatter={(value) => [value, 'Số đặt phòng']} />
-                <Bar dataKey="bookings" fill="#1890ff" />
-              </BarChart>
+            <BarChart
+              data={
+                topHotels?.map((hotel) => ({
+                  name: hotel.hotelName,
+                  bookings: hotel.totalBookings,
+                })) || []
+              }
+              layout="horizontal"
+            >
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis type="number" />
+              <YAxis dataKey="name" type="category" width={100} />
+              <Tooltip formatter={(value) => [value, 'Số đặt phòng']} />
+              <Bar dataKey="bookings" fill="#1890ff" />
+            </BarChart>
           </ChartCard>
         </Col>
         <Col key="quick-stats" xs={24} lg={12}>

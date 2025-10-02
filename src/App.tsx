@@ -15,12 +15,9 @@ import VerifyOtpPage from './pages/VerifyOtpPage';
 import ResetPasswordPage from './pages/ResetPasswordPage';
 import ForgotPasswordPage from './pages/ForgotPasswordPage';
 import AwaitEmailConfirmationPage from './pages/AwaitEmailConfirmationPage';
-import TestPage from './pages/TestPage';
 import DashboardOverviewSimple from './pages/DashboardOverviewSimple';
-import './App.css';
 
 const DashboardLayout = lazy(() => import('./components/layout/DashboardLayout'));
-const DashboardOverview = lazy(() => import('./pages/TestPage'));
 const UserManagement = lazy(() => import('./pages/UserManagement'));
 const HotelManagement = lazy(() => import('./pages/HotelManagement'));
 const RoomManagement = lazy(() => import('./pages/RoomManagement'));

@@ -103,20 +103,6 @@ const LoginPage: React.FC = () => {
               Quên mật khẩu? <Link to="/forgot-password">Khôi phục tại đây</Link>
             </Text>
           </Space>
-          <Space direction="vertical" size="small">
-            <Text type="secondary" className="text-xs">
-              Demo Accounts:
-            </Text>
-            <Text code className="text-xs">
-              ADMIN: admin / SecurePass123!
-            </Text>
-            <Text code className="text-xs">
-              MANAGER: manager1 / SecurePass123!
-            </Text>
-            <Text code className="text-xs">
-              STAFF: staff1 / SecurePass123!
-            </Text>
-          </Space>
         </div>
       </Card>
     </div>
