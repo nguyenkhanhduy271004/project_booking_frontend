@@ -191,7 +191,7 @@ const MyBookingsPage: React.FC = () => {
   };
 
   const canPayBooking = (booking: BookingResponse) => {
-    return booking.status === 'PENDING' || booking.status === 'PAYING' || booking.status === 'CONFIRMED';
+    return booking.status === 'PENDING';
   };
   const getStatusColor = (status: BookingStatus) => {
     switch (status) {
