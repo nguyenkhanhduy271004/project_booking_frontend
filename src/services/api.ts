@@ -4,7 +4,7 @@ import axios from 'axios';
 import { toastError } from '../utils/toast';
 import { useAuthStore } from '../store/authStore';
 const api: AxiosInstance = axios.create({
-  baseURL: 'http://3.112.172.7:8080',
+  baseURL: 'https://api.duychien.shop',
   timeout: 0, // no timeout
   headers: {
     'Content-Type': 'application/json',
@@ -65,7 +65,7 @@ api.interceptors.response.use(
       
       if (refreshToken) {
         try {
-          const { data } = await axios.post('http://3.112.172.7:8080/api/auth/refreshToken', { refreshToken });
+          const { data } = await axios.post('https://api.duychien.shop/api/auth/refreshToken', { refreshToken });
           
           if (authStorageRaw) {
             try {

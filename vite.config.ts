@@ -33,7 +33,7 @@ export default defineConfig({
     port: 5173,
     proxy: {
       '/api': {
-        target: 'http://3.112.172.7:8080',
+        target: 'https://api.duychien.shop',
         changeOrigin: true,
       },
     },
